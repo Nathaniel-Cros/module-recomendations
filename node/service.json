@@ -1,0 +1,22 @@
+{
+  "memory": 512,
+  "ttl": 10,
+  "timeout": 120,
+  "minReplicas": 2,
+  "maxReplicas": 4,
+  "workers": 1,
+  "routes": {
+    "getCatalogClientById": {
+      "path": "/v1/getCatalogClientById",
+      "public": true
+    },
+    "getCatalogTree": {
+      "path": "/v1/getCatalogTree",
+      "public": true
+    },
+    "getCatalogById": {
+      "path": "/v1/getCatalogById",
+      "public": true
+    }
+  }
+}
