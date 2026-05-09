@@ -1,13 +1,12 @@
 {
-  "section": "orders",
+  "adminVersion": 4,
+  "section": "storeSettings",
   "titleId": "admin-example.navigation.label-group",
-  "subSection": "example",
-  "searchKeyWordsHelpers": "admin-example.navigation.search.kws",
+  "subSection": "Cross Selling",
   "subSectionItems": [
     {
       "labelId": "admin-example.navigation.label-table",
-      "path": "/admin/example",
-      "searchKeyWordsHelpers": "admin-example.navigation.table.search.kws"
+      "path": "/admin/market-basket"
     }
   ]
 }

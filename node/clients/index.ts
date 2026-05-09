@@ -1,10 +1,9 @@
 import { IOClients } from '@vtex/api'
 import { Catalog } from '@vtex/clients'
 
-import ApisCatalog from "./catalogInternl";
+import ApisCatalog from './catalogInternl'
 
 export class Clients extends IOClients {
-
   public get apiCatalog(): Catalog {
     return this.getOrSet('apiCatalog', Catalog)
   }

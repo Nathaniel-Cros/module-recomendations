@@ -1,9 +1,7 @@
 {
-  "admin-example.navigation.label-group": "Admin de exemplo",
-  "admin-example.navigation.label-table": "Exemplo de tabela",
-  "admin-example.navigation.search.kws": "teste, mock, fake",
-  "admin-example.navigation.details.search.kws": "detalhe, mock, test, oi",
-  "admin-example.navigation.table.search.kws": "tabela, mock, test, tchau",
-  "admin-example.hello-world": "Admin de exemplo",
-  "admin-example.details": "Admin detalhes"
+  "admin-example.navigation.label-group": "Crosselling",
+  "admin-example.navigation.label-table": "Market Basket",
+  "admin-example.navigation.search.kws": "crosselling, relações, minicart, market basket",
+  "admin-example.navigation.table.search.kws": "relações, market basket",
+  "admin-example.hello-world": "Crosselling Admin - Market Basket"
 }
