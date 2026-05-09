@@ -1,8 +1,8 @@
 {
-  "name": "products-recomendations-admin",
+  "name": "relations-admin",
   "vendor": "rapsodiamx",
   "version": "0.0.1",
-  "title": "Admin Products Recomendations",
+  "title": "Crosselling Admin",
   "description": "",
   "mustUpdateAt": "2026-05-06",
   "scripts": {
@@ -23,6 +23,9 @@
   "policies": [
     {
       "name": "read-write-any-workspace"
+    },
+    {
+      "name": "vbase-read-write"
     },
     {
       "name": "update-app-settings"

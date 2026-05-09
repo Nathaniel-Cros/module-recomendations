@@ -17,6 +17,14 @@
     "getCatalogById": {
       "path": "/v1/getCatalogById",
       "public": true
+    },
+    "getRelations": {
+      "path": "/v1/relations",
+      "public": true
+    },
+    "getRecommendations": {
+      "path": "/v1/recommendations",
+      "public": true
     }
   }
 }

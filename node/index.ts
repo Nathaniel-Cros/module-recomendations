@@ -2,7 +2,15 @@ import { method, Service } from '@vtex/api'
 import type { ClientsConfig, ServiceContext } from '@vtex/api'
 
 import { Clients } from './clients'
-import { ErrorHandler, clientCatalog, getCatalogTree, getCatalogById } from './middlewares'
+import {
+  ErrorHandler,
+  clientCatalog,
+  getCatalogTree,
+  getCatalogById,
+  getRelations,
+  saveRelations,
+  getRecommendations,
+} from './middlewares'
 
 const TEN_SECONDS_MS = 10 * 1000
 
@@ -31,6 +39,13 @@ export default new Service({
     }),
     getCatalogById: method({
       GET: [ErrorHandler, getCatalogById],
+    }),
+    getRelations: method({
+      GET: [ErrorHandler, getRelations],
+      POST: [ErrorHandler, saveRelations],
+    }),
+    getRecommendations: method({
+      GET: [ErrorHandler, getRecommendations],
     }),
   },
 })
