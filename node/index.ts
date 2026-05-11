@@ -10,6 +10,7 @@ import {
   getRelations,
   saveRelations,
   getRecommendations,
+  searchProducts,
 } from './middlewares'
 
 const TEN_SECONDS_MS = 10 * 1000
@@ -46,6 +47,9 @@ export default new Service({
     }),
     getRecommendations: method({
       GET: [ErrorHandler, getRecommendations],
+    }),
+    searchProducts: method({
+      GET: [ErrorHandler, searchProducts],
     }),
   },
 })

@@ -24,6 +24,10 @@ export default class ApisCatalog extends JanusClient {
     return this.http.get(this.routes.catalogTree(level))
   }
 
+  public searchProducts(categoryId: string) {
+    return this.http.get(this.routes.searchProducts(categoryId))
+  }
+
   private get routes() {
     const base = '/api'
 
@@ -32,6 +36,8 @@ export default class ApisCatalog extends JanusClient {
         `${base}/catalog_system/pub/category/tree/${level}`,
       categoryById: (categoryId: string) =>
         `${base}/catalog/pvt/category/${categoryId}?includeTreePath=true`,
+      searchProducts: (categoryId: string) =>
+        `${base}/catalog_system/pub/products/search?fq=C:${categoryId}`,
     }
   }
 }

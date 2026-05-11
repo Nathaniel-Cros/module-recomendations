@@ -25,6 +25,10 @@
     "getRecommendations": {
       "path": "/v1/recommendations",
       "public": true
+    },
+    "searchProducts": {
+      "path": "/v1/searchProducts",
+      "public": true
     }
   }
 }
