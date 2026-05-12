@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 
 async function searchProducts(ctx: Context) {
   try {
@@ -45,8 +46,13 @@ async function searchProducts(ctx: Context) {
     ) {
       const products = await apisCatalog.searchProducts(categoryPath)
 
+      // Mezclamos también en el fallback para mantener consistencia
+      const shuffledProducts = (products as any[]).sort(
+        () => Math.random() - 0.5
+      )
+
       ctx.status = 200
-      ctx.body = { products }
+      ctx.body = { products: shuffledProducts }
 
       return
     }
@@ -61,8 +67,11 @@ async function searchProducts(ctx: Context) {
     // Aplanar todos los arrays de productos en uno solo
     const products = (productsByTarget as any[]).flat()
 
+    // Mezclamos los productos de forma aleatoria para que no aparezcan en bloques por categoría
+    const shuffledProducts = products.sort(() => Math.random() - 0.5)
+
     ctx.status = 200
-    ctx.body = { products }
+    ctx.body = { products: shuffledProducts }
   } catch (e) {
     console.error('..:: Error in searchProducts middleware ::..', e)
     ctx.status = 500
