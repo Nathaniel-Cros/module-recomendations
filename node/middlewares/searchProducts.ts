@@ -2,36 +2,69 @@
 
 async function searchProducts(ctx: Context) {
   try {
-    const { apisCatalog } = ctx.clients
-    // Esperamos un query param con las categorías separadas por coma, ej: ?categoryIds=1,2,3
-    const { categoryIds } = ctx.query
+    const { apisCatalog, vbase } = ctx.clients
+    const { workspace } = ctx.vtex
+    const { fq } = ctx.query
 
-    if (!categoryIds) {
+    if (!fq) {
       ctx.status = 400
-      ctx.body = { error: 'Missing categoryIds query parameter' }
+      ctx.body = { error: 'Missing fq query parameter' }
 
       return
     }
 
-    const idsArray = (categoryIds as string).split(',')
+    // Extraemos el path de la categoría (ej: de C:/4/21/ a 4/21/)
+    let categoryPath = String(fq).replace('C:/', '')
 
-    // Ejecutar múltiples promesas en paralelo
-    const promises = idsArray.map(id => apisCatalog.searchProducts(id.trim()))
+    // Normalizamos para que coincida con el formato de VBase (ej: "4/16/")
+    // Aseguramos que no empiece con slash y que siempre termine con slash
+    if (categoryPath.startsWith('/')) {
+      categoryPath = categoryPath.substring(1)
+    }
 
-    // Cacharlas con Promise.all
-    const results = await Promise.all(promises)
+    if (!categoryPath.endsWith('/')) {
+      categoryPath += '/'
+    }
 
-    // Formatear el resultado: podemos juntar todo o devolver un mapa por categoría
-    // Aquí devolveremos un objeto donde cada llave es el ID de la categoría y su valor es el array de productos
-    const responseData = idsArray.reduce((acc: any, id, index) => {
-      acc[id.trim()] = results[index]
+    // Leer las relaciones guardadas en VBase
+    const data: any = await vbase.getJSON(workspace, 'relations', true)
 
-      return acc
-    }, {})
+    // Buscar la relación cuyo source coincida con el categoryPath
+    const relation =
+      data && Array.isArray(data.relations)
+        ? data.relations.find(
+            (r: any) => String(r.source.id) === String(categoryPath)
+          )
+        : null
+
+    // Si no hay relación o no tiene targets, buscamos los productos de la categoría original
+    if (
+      !relation ||
+      !Array.isArray(relation.targets) ||
+      relation.targets.length === 0
+    ) {
+      const products = await apisCatalog.searchProducts(categoryPath)
+
+      ctx.status = 200
+      ctx.body = { products }
+
+      return
+    }
+
+    // Si hay relación, buscamos productos de cada categoría target en paralelo
+    const productsByTarget = await Promise.all(
+      relation.targets.map((target: any) =>
+        apisCatalog.searchProducts(String(target.id))
+      )
+    )
+
+    // Aplanar todos los arrays de productos en uno solo
+    const products = (productsByTarget as any[]).flat()
 
     ctx.status = 200
-    ctx.body = responseData
+    ctx.body = { products }
   } catch (e) {
+    console.error('..:: Error in searchProducts middleware ::..', e)
     ctx.status = 500
     ctx.body = {
       error: e,

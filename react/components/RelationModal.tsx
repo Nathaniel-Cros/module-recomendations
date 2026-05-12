@@ -13,7 +13,8 @@ interface Props {
 }
 
 const flattenCategories = (
-  cats: Category[] | Record<string, Category>
+  cats: Category[] | Record<string, Category>,
+  parentPath = ''
 ): RelationNode[] => {
   let flat: RelationNode[] = []
 
@@ -25,9 +26,11 @@ const flattenCategories = (
     : []
 
   categoriesArray.forEach(c => {
-    flat.push({ id: c.id, name: c.name })
+    const currentPath = `${parentPath}${c.id}/`
+
+    flat.push({ id: currentPath, name: c.name })
     if (c.children && c.children.length > 0) {
-      flat = flat.concat(flattenCategories(c.children))
+      flat = flat.concat(flattenCategories(c.children, currentPath))
     }
   })
 
